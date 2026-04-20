@@ -31,6 +31,7 @@ import {
 } from 'recharts';
 import { useData } from '../hooks/useData';
 import { useAuth } from '../hooks/useAuth';
+import { StatSkeleton, TableSkeleton } from '../components/common/Skeletons';
 import { formatRelativeTime, capitalize } from '../utils/formatters';
 import {
   MOCK_DAILY_REQUESTS,
@@ -110,57 +111,68 @@ export default function Dashboard() {
         initial="hidden"
         animate="visible"
       >
-        <motion.div className="stat-card critical" variants={itemVariants}>
-          <div className="stat-icon critical">
-            <Zap size={22} />
-          </div>
-          <div className="stat-content">
-            <div className="stat-label">Critical Alerts</div>
-            <div className="stat-value">{stats.criticalRequests}</div>
-            <div className="stat-change negative">
-              <AlertTriangle size={12} /> Needs immediate attention
-            </div>
-          </div>
-        </motion.div>
+        {loading ? (
+          <>
+            <StatSkeleton />
+            <StatSkeleton />
+            <StatSkeleton />
+            <StatSkeleton />
+          </>
+        ) : (
+          <>
+            <motion.div className="stat-card critical" variants={itemVariants}>
+              <div className="stat-icon critical">
+                <Zap size={22} />
+              </div>
+              <div className="stat-content">
+                <div className="stat-label">Critical Alerts</div>
+                <div className="stat-value">{stats.criticalRequests}</div>
+                <div className="stat-change negative">
+                  <AlertTriangle size={12} /> Needs immediate attention
+                </div>
+              </div>
+            </motion.div>
 
-        <motion.div className="stat-card high" variants={itemVariants}>
-          <div className="stat-icon high">
-            <Clock size={22} />
-          </div>
-          <div className="stat-content">
-            <div className="stat-label">Pending Requests</div>
-            <div className="stat-value">{stats.pendingRequests}</div>
-            <div className="stat-change negative">
-              <TrendingUp size={12} /> Awaiting assignment
-            </div>
-          </div>
-        </motion.div>
+            <motion.div className="stat-card high" variants={itemVariants}>
+              <div className="stat-icon high">
+                <Clock size={22} />
+              </div>
+              <div className="stat-content">
+                <div className="stat-label">Pending Requests</div>
+                <div className="stat-value">{stats.pendingRequests}</div>
+                <div className="stat-change negative">
+                  <TrendingUp size={12} /> Awaiting assignment
+                </div>
+              </div>
+            </motion.div>
 
-        <motion.div className="stat-card success" variants={itemVariants}>
-          <div className="stat-icon success">
-            <CheckCircle size={22} />
-          </div>
-          <div className="stat-content">
-            <div className="stat-label">Resolved</div>
-            <div className="stat-value">{stats.resolvedRequests}</div>
-            <div className="stat-change positive">
-              <TrendingUp size={12} /> {stats.totalRequests > 0 ? Math.round((stats.resolvedRequests / stats.totalRequests) * 100) : 0}% resolution rate
-            </div>
-          </div>
-        </motion.div>
+            <motion.div className="stat-card success" variants={itemVariants}>
+              <div className="stat-icon success">
+                <CheckCircle size={22} />
+              </div>
+              <div className="stat-content">
+                <div className="stat-label">Resolved</div>
+                <div className="stat-value">{stats.resolvedRequests}</div>
+                <div className="stat-change positive">
+                  <TrendingUp size={12} /> {stats.totalRequests > 0 ? Math.round((stats.resolvedRequests / stats.totalRequests) * 100) : 0}% resolution rate
+                </div>
+              </div>
+            </motion.div>
 
-        <motion.div className="stat-card info" variants={itemVariants}>
-          <div className="stat-icon info">
-            <Users size={22} />
-          </div>
-          <div className="stat-content">
-            <div className="stat-label">Active Volunteers</div>
-            <div className="stat-value">{stats.activeVolunteers}</div>
-            <div className="stat-change positive">
-              <Heart size={12} /> of {stats.totalVolunteers} total
-            </div>
-          </div>
-        </motion.div>
+            <motion.div className="stat-card info" variants={itemVariants}>
+              <div className="stat-icon info">
+                <Users size={22} />
+              </div>
+              <div className="stat-content">
+                <div className="stat-label">Active Volunteers</div>
+                <div className="stat-value">{stats.activeVolunteers}</div>
+                <div className="stat-change positive">
+                  <Heart size={12} /> of {stats.totalVolunteers} total
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
       </motion.div>
 
       {/* Charts Row */}
@@ -280,7 +292,9 @@ export default function Dashboard() {
             </button>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            {recentActivity.length === 0 ? (
+            {loading ? (
+              <TableSkeleton rows={5} />
+            ) : recentActivity.length === 0 ? (
               <div className="empty-state" style={{ padding: '32px 16px' }}>
                 <p>No active requests</p>
               </div>

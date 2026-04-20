@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useData } from '../hooks/useData';
 import { useAuth } from '../hooks/useAuth';
+import { CardSkeleton } from '../components/common/Skeletons';
 import { AlertCircle, BellRing } from 'lucide-react';
 import Modal from '../components/common/Modal';
 import { formatRelativeTime, capitalize } from '../utils/formatters';
@@ -335,7 +336,11 @@ export default function RequestsPage() {
 
       {/* Request Cards Grid */}
       <AnimatePresence mode="popLayout">
-        {filteredRequests.length === 0 ? (
+        {loading ? (
+          <div className="request-grid">
+            {[...Array(6)].map((_, i) => <CardSkeleton key={i} />)}
+          </div>
+        ) : filteredRequests.length === 0 ? (
           <motion.div
             className="empty-state"
             initial={{ opacity: 0 }}
