@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9fafb;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Utility Classes */
+@layer components {
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6;
+  }
+
+  .btn-primary {
+    @apply px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold text-gray-800 mb-4;
+  }
+
+  .fade-in {
+    @apply animate-fadeIn;
+  }
+
+  .slide-in {
+    @apply animate-slideIn;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f46e5;
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .max-w-7xl {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .text-4xl {
+    font-size: 1.875rem;
+  }
+
+  .text-3xl {
+    font-size: 1.875rem;
+  }
+}
+
+/* Loading State */
+.loading {
+  @apply opacity-50 pointer-events-none;
+}
+
+/* Empty State */
+.empty-state {
+  @apply flex flex-col items-center justify-center py-12 text-gray-500;
+}
+
+/* Error State */
+.error-state {
+  @apply bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg;
+}
+
+/* Success State */
+.success-state {
+  @apply bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg;
+}
